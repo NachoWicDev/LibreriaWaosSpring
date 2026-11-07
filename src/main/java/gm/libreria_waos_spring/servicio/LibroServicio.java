@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import java.math.BigDecimal;
 import java.util.List;
 
 import static gm.libreria_waos_spring.util.ConsolaUtil.*;
@@ -131,12 +131,12 @@ public class LibroServicio implements ILibroServicio {
         Autor autor = autorRepositorio.findById(idAutor).orElseThrow(() -> new RecursoNoEncontradoException(NL + "Autor no disponible." + NL));
 
         // 5. Recibir y validar Precio y Existencias.
-        Double precio;
+        BigDecimal precio;
         do {
-            precio = pedirDouble("Ingrese el Precio del Libro", false);
+            precio = pedirBigDecimal("Ingrese el Precio del Libro", false);
             if (precio == null) return;
-            if (precio < 0) loguearPrecioMenorQue0();
-        } while (precio < 0);
+            if (precio.compareTo(BigDecimal.ZERO) < 0) loguearPrecioMenorQue0();
+        } while (precio.compareTo(BigDecimal.ZERO) < 0);
 
         Integer existencias;
         do {
@@ -209,7 +209,7 @@ public class LibroServicio implements ILibroServicio {
         } while (idAutor != null && idAutor < 1);
 
         // 7. Pedir Precio, Ventas y Existencias del libro.
-        Double precio = pedirDouble("Ingrese el Precio del libro", true);
+        BigDecimal precio = pedirBigDecimal("Ingrese el Precio del libro", true);
         Integer ventas = pedirInt("Ingrese las Ventas del Libro", true);
         Integer existencias = pedirInt("Ingrese las Existencias del Libro", true);
 
@@ -325,7 +325,8 @@ public class LibroServicio implements ILibroServicio {
 
         // 8. Validación por parte del usuario.
         logger.info("Está por comprar " + cantidad + " copias del libro:" + NL + libro + NL);
-        logger.info("Sería un total de $" + libro.getPrecio() * cantidad + NL);
+        BigDecimal total = libro.getPrecio().multiply(new BigDecimal(cantidad));
+        logger.info("Sería un total de $" + total + NL);
         if (!chequearSeguro()) return;
 
         // 9. Modificación de valores existencias ventas y disponible.
@@ -392,12 +393,12 @@ public class LibroServicio implements ILibroServicio {
         if (existe) throw new ConflictoException(NL + "Ya existe '" + titulo + "' para este Autor." + NL);
     }
 
-    private void validarLibro(String titulo, Integer idAutor, Double precio, Integer existencias, Integer ventas, Boolean disponible) {
+    private void validarLibro(String titulo, Integer idAutor, BigDecimal precio, Integer existencias, Integer ventas, Boolean disponible) {
         // Validaciones de conlfictos con valores del libro.
         if (titulo == null || titulo.isBlank()) throw new ValidacionException("El título es obligatorio.");
         if (titulo.trim().length() > 100) throw new ValidacionException("El título no puede pasar de 100 caracteres.");
         if (idAutor == null || idAutor <= 0) throw new ValidacionException("El ID del Autor debe ser mayor a 0." + NL);
-        if (precio == null || precio < 0) throw new ValidacionException(NL + "El precio debe ser mayor o igual a 0." + NL);
+        if (precio == null || precio.compareTo(BigDecimal.ZERO) < 0) throw new ValidacionException(NL + "El precio debe ser mayor o igual a 0." + NL);
         if (existencias == null || existencias < 0) throw new ValidacionException(NL + "El stock debe ser mayor o igual a 0." + NL);
         if (ventas == null || ventas < 0) throw new ValidacionException(NL + "Las ventas deben ser igual o mayores a 0." + NL);
         if (disponible == null) throw new ValidacionException(NL + "El valor Disponible no puede ser Nulo." + NL);
