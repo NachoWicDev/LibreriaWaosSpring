@@ -210,7 +210,7 @@ public class LibroServicio implements ILibroServicio {
 
         // 7. Pedir Precio, Ventas y Existencias del libro.
         Double precio = pedirDouble("Ingrese el Precio del libro", true);
-        Integer ventas = pedirInt("Ingrese las Ventas del Librot", true);
+        Integer ventas = pedirInt("Ingrese las Ventas del Libro", true);
         Integer existencias = pedirInt("Ingrese las Existencias del Libro", true);
 
         // 8. Validar campos vacíos (Si es null o String vacío, mantiene el valor que tenía anteriormente).
