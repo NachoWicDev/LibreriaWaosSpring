@@ -9,6 +9,7 @@ Proyecto enfocado en buenas prácticas: separación de capas (Modelo, Repositori
 - **Arquitectura en Capas**: Separación clara entre Entidades, Repositorios (JPA) y Servicios.
 - **Relaciones JPA**: Mapeo `@OneToMany` y `@ManyToOne` entre Autor y Libro.
 - **Excepciones de Negocio**: Uso de excepciones personalizadas (`RecursoNoEncontradoException`, `ConflictoException`, etc.).
+- **Aplicación de BigDecimal**: Uso de la variable BigDecimal para mejorar la precisión del manejo de datos de índole monetaria.
 - **Validaciones**: No se puede agregar un libro si el Autor no existe o si los datos son inválidos.
 - **Utilidad de Consola**: Clase `ConsolaUtil` centraliza la entrada de datos, validando tipos y permitiendo cancelar o mantener valores.
 - **Sin Hardcode**: Las credenciales de la BD están en `application.properties`, el cual está excluido de Git mediante `.gitignore`.
@@ -38,7 +39,7 @@ CREATE TABLE libros (
     id INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(100) NOT NULL,
     id_autor INT NOT NULL,
-    precio DOUBLE NOT NULL,
+    precio DECIMAL(10,2) NOT NULL,
     ventas INT DEFAULT 0,
     existencias INT NOT NULL,
     disponible BOOLEAN,
@@ -98,9 +99,7 @@ Añadir pruebas unitarias con JUnit 5 y Mockito para los servicios.
 
 Implementar un frontend con Angular o React.
 
-Usar BigDecimal para el manejo de precios y evitar problemas de precisión.
-
 Implementar paginación en los listados.
 
-# Hecho por Ignacio Wicnudel | Proyecto de práctica Spring Boot Jr
+# Hecho por Nacho Wic (@NachoWicDev) | Proyecto de práctica Spring Boot Jr
 
