@@ -14,7 +14,6 @@ import lombok.*;
 @AllArgsConstructor // Crea constructor completo (no se puede elegir dejar fuera algunos argumentos del constructor), necesario para usar @Builder
 @Builder // Método para crear objetos sin usar AllArgs que obliga a meter ID y causa bugs
 @EqualsAndHashCode(onlyExplicitlyIncluded = true) // Crea métodos equals y HashCode
-@ToString(exclude = "autor") // Para que lombox no meta el autor en el toString
 public class Libro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Es la propiedad JPA para un auto increment

@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 @NoArgsConstructor // Crea constructor vacío
 @AllArgsConstructor // Crea constructor completo (no se puede elegir dejar fuera algunos argumentos del constructor), necesario para usar @Builder
 @Builder // Método para crear objetos sin usar AllArgs que obliga a meter ID y causa bugs
-@ToString(exclude = "libros") // Crea un toString y excluye los libros para evitar un bucle infinito
 @EqualsAndHashCode(onlyExplicitlyIncluded = true) // Crea métodos equals y hashCode
 public class Autor {
     @Id
@@ -24,6 +23,7 @@ public class Autor {
     private String nacionalidad;
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Libro> libros = new ArrayList<>(); // Crea el JOIN entre tablas y permite mostrar los libros de dicho autor
 
     public void agregarLibro(Libro libro) {
