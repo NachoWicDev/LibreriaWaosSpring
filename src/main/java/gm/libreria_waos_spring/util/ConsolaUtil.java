@@ -3,6 +3,7 @@ package gm.libreria_waos_spring.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Scanner;
+import java.math.BigDecimal;
 
 public class ConsolaUtil {
 
@@ -53,7 +54,7 @@ public class ConsolaUtil {
         }
     }
 
-    public static Double pedirDouble(String mensaje, boolean permitirVacio) {
+    public static BigDecimal pedirBigDecimal(String mensaje, boolean permitirVacio) {
         while (true) {
             String sufijo = permitirVacio ? " [Enter para mantener]: " : " [Enter para cancelar]: ";
             logger.info(NL + mensaje + sufijo);
@@ -65,9 +66,9 @@ public class ConsolaUtil {
             }
 
             try {
-                return Double.parseDouble(input);
+                return new BigDecimal(input);
             } catch (NumberFormatException e) {
-                logger.info("Error: Debe ingresar solo números" + NL);
+                logger.info("Error: Debe ingresar un número decimal válido" + NL);
             }
         }
     }

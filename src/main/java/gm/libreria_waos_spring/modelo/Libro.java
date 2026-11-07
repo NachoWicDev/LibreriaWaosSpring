@@ -3,7 +3,8 @@ package gm.libreria_waos_spring.modelo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.DecimalMin;
+import java.math.BigDecimal;
 import lombok.*;
 
 @Entity
@@ -30,8 +31,8 @@ public class Libro {
 
     private Boolean disponible;
 
-    @Min(value = 0, message = "El precio no puede ser negativo")
-    private Double precio;
+    @DecimalMin(value = "0.00", message = "El precio no puede ser negativo")
+    private BigDecimal precio;
     private Integer ventas;
 
     @Min(value = 0, message = "Las existencias no pueden ser negativas")
@@ -51,7 +52,7 @@ public class Libro {
                 tituloCorto, // usamos el truncado
                 autor != null ? autorCorto : "N/A",
                 disponible,
-                precio,
+                precio != null ? precio.doubleValue() : 0.0,
                 ventas,
                 existencias
         );
