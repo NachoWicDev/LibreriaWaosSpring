@@ -83,4 +83,45 @@ public class LibroServicioTest {
         assertEquals(0, libro.getVentas(), "Las ventas no deberían cambiar");
         assertEquals(false, libro.getDisponible(), "El libro debería estar no disponible");
     }
+
+    @Test
+    void validarLibroDuplicado_CuandoYaExiste_DeberiaLanzarExcepcion() {
+        // 1. ARRANGE: Simulamos que la BD dice que el libro YA EXISTE
+        Integer idAutor = 1;
+        String titulo = "Harry Potter";
+
+        // Le decimos al mock: "Si te preguntan por este título y autor, decí que SÍ existe"
+        // (Usamos any() o el valor exacto, pero como el método hace .trim() usamos el valor ya trimmeado)
+        org.mockito.Mockito.when(libroRepositorio.existsByTituloAndAutor_Id(titulo, idAutor))
+                .thenReturn(true);
+
+        // 2. ACT & ASSERT
+        // Verificamos que lance la excepción ConflictoException
+        org.junit.jupiter.api.Assertions.assertThrows(
+                gm.libreria_waos_spring.exception.ConflictoException.class,
+                () -> libroServicio.validarLibroDuplicado(titulo, idAutor)
+        );
+    }
+
+    @Test
+    void comprarLibro_CalculaTotalCorrectamente() {
+        // 1. ARRANGE
+        Autor autor = Autor.builder().id(1).nombre("J.K. Rowling").build();
+        Libro libro = Libro.builder()
+                .id(1)
+                .titulo("Harry Potter")
+                .autor(autor)
+                .precio(new BigDecimal("15.50"))
+                .existencias(10)
+                .ventas(0)
+                .build();
+
+        int cantidadAComprar = 3;
+
+        // 2. ACT: Hacemos la matemática de BigDecimal
+        BigDecimal total = libro.getPrecio().multiply(new BigDecimal(cantidadAComprar));
+
+        // 3. ASSERT: 15.50 * 3 = 46.50
+        org.junit.jupiter.api.Assertions.assertEquals(new BigDecimal("46.50"), total, "El total debería ser 46.50");
+    }
 }

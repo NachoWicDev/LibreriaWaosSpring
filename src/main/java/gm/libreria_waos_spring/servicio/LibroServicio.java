@@ -387,7 +387,7 @@ public class LibroServicio implements ILibroServicio {
     }
 
     @Transactional(readOnly = true)
-    private void validarLibroDuplicado(String titulo, Integer idAutor) {
+    public void validarLibroDuplicado(String titulo, Integer idAutor) {
         // Validar que el libro no se encuentre en la BD a la hora de crearlo.
         boolean existe = libroRepositorio.existsByTituloAndAutor_Id(titulo.trim(), idAutor);
         if (existe) throw new ConflictoException(NL + "Ya existe '" + titulo + "' para este Autor." + NL);
