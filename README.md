@@ -95,8 +95,6 @@ LibreriaWaosSpring/
 
 Migrar la interfaz de consola a una API REST con Spring Web.
 
-Añadir pruebas unitarias con JUnit 5 y Mockito para los servicios.
-
 Implementar un frontend con Angular o React.
 
 Implementar paginación en los listados.
