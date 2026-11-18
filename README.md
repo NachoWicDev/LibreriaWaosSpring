@@ -5,6 +5,10 @@ Proyecto enfocado en buenas prácticas: separación de capas (Modelo, Repositori
 
 ![Java](https://img.shields.io/badge/Java-21-orange) ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.2-green) ![Maven](https://img.shields.io/badge/Maven-3.9-blue) ![MySQL](https://img.shields.io/badge/MySQL-8.0-blue)
 
+## 🎥 Demostración en Acción
+- Listado de Libros con varios filtros
+![Demostración de la Librería](libreria-revision-libros.gif)
+
 ## ✨ Características
 - **Arquitectura en Capas**: Separación clara entre Entidades, Repositorios (JPA) y Servicios.
 - **Relaciones JPA**: Mapeo `@OneToMany` y `@ManyToOne` entre Autor y Libro.
